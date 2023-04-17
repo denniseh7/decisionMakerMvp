@@ -1,0 +1,27 @@
+{
+  "name": "decisionmakermvp",
+  "version": "1.0.0",
+  "description": "MVP app for friend group decisions",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denniseh7/decisionMakerMvp.git"
+  },
+  "keywords": [
+    "mvp",
+    "decision",
+    "hackreactor",
+    "friends",
+    "board",
+    "games"
+  ],
+  "author": "Dennis Hsu",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/denniseh7/decisionMakerMvp/issues"
+  },
+  "homepage": "https://github.com/denniseh7/decisionMakerMvp#readme"
+}
