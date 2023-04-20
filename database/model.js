@@ -14,7 +14,17 @@ const gameSchema = mongoose.Schema({
 
 const Game = mongoose.model('Game', gameSchema);
 
+const eventSchema = mongoose.Schema({
+  eventId: String,
+  choices: Array,
+  name: String,
+  users: Object,
+});
+
+const Event = mongoose.model('Event', eventSchema);
+
 module.exports = {
   UserCol,
   Game,
+  Event,
 };

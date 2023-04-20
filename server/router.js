@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { getUserCol, getGame } = require('../database/controller');
+const { getUserCol, getGame, getEvent, createEvent } = require('../database/controller');
 
 // UserCol
 router.get('/api/collection', async (req, res) => {
@@ -24,6 +24,17 @@ router.get('/api/game', async (req, res) => {
     res.status(200).send(result);
   } catch (err) {
     console.log('Error getting game: id', req.query.objectid, err);
+    res.status(500).send(err);
+  }
+});
+
+router.get('/event/:eventId', async (req, res) => {
+  console.log('req param eventId:', req.params.eventId);
+  try {
+    const result = await getEvent(req.params.eventId);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log('Error getting event', req.params.eventId, err);
     res.status(500).send(err);
   }
 });
