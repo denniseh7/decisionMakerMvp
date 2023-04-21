@@ -15,10 +15,9 @@ const gameSchema = mongoose.Schema({
 const Game = mongoose.model('Game', gameSchema);
 
 const eventSchema = mongoose.Schema({
-  eventId: String,
-  choices: Array,
-  name: String,
-  users: Object,
+  eventid: String,
+  eventtitle: String,
+  userChoices: Object,
 });
 
 const Event = mongoose.model('Event', eventSchema);

@@ -7,8 +7,17 @@ import GamesSelect from './GamesSelect';
 export default function App() {
   // states
   const [games, setGames] = useState([]);
+  const [gameInfo, setGameInfo] = useState({});
   const [choices, setChoices] = useState([]);
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState({
+    username: '',
+    password: '',
+  });
+  const [event, setEvent] = useState({
+    eventid: '',
+    eventtitle: '',
+    userChoices: {},
+  });
 
   // initialize dataset
   useEffect(() => {
@@ -17,18 +26,40 @@ export default function App() {
 
   // handler
   const saveHandler = () => {
-    console.log('TODO save click');
+    const updatedUserChoices = {
+      ...event.userChoices,
+      [user.username]: choices,
+    };
+    // console.log(JSON.stringify(updatedUserChoices), event.eventid);
+    Parse.updateEvent(event.eventid, updatedUserChoices, setEvent);
+    // console.log(user.username);
+  };
+
+  const gameHandler = async (objectId) => {
+    const result = await Parse.getGameInfo(objectId);
+    setGameInfo(result);
   };
 
   return (
     <div>
       <h1>Decision Maker</h1>
-      <EventGroup />
+      <EventGroup
+        choices={choices}
+        setChoices={setChoices}
+        user={user}
+        setUser={setUser}
+        event={event}
+        setEvent={setEvent}
+        gameInfo={gameInfo}
+        gameHandler={gameHandler}
+      />
       <GamesSelect
         games={games}
         choices={choices}
         setChoices={setChoices}
         saveHandler={saveHandler}
+        gameInfo={gameInfo}
+        gameHandler={gameHandler}
       />
     </div>
   );

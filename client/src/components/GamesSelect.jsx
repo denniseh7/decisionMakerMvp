@@ -4,14 +4,9 @@ import ChoiceList from './ChoiceList';
 import GameInfo from './GameInfo';
 import Parse from '../Parse';
 
-export default function GamesSelect({ games, choices, setChoices, saveHandler }) {
-  const [gameInfo, setGameInfo] = useState({});
-
-  const gameHandler = async (objectId) => {
-    const result = await Parse.getGameInfo(objectId);
-    setGameInfo(result);
-  };
-
+export default function GamesSelect({
+  games, choices, setChoices, saveHandler, gameInfo, gameHandler,
+}) {
   return (
     <div>
       <h2>GamesSelect</h2>

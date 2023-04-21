@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const { getUserCol, getGame, getEvent, createEvent } = require('../database/controller');
+const {
+  getUserCol, getGame, getEvent, getEventCount, createEvent, updateEventChoice,
+} = require('../database/controller');
 
 // UserCol
 router.get('/api/collection', async (req, res) => {
@@ -28,13 +30,46 @@ router.get('/api/game', async (req, res) => {
   }
 });
 
-router.get('/event/:eventId', async (req, res) => {
-  console.log('req param eventId:', req.params.eventId);
+router.get('/api/event/:eventid', async (req, res) => {
+  console.log('req param eventid:', req.params.eventid);
   try {
-    const result = await getEvent(req.params.eventId);
+    const result = await getEvent(req.params.eventid);
     res.status(200).send(result);
   } catch (err) {
     console.log('Error getting event', req.params.eventId, err);
+    res.status(500).send(err);
+  }
+});
+
+router.get('/api/eventCount', async (req, res) => {
+  try {
+    const result = await getEventCount();
+    console.log('Success getEventCount:', result);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log('Error getting from count from db:', err);
+    res.status(500).send(err);
+  }
+});
+
+router.post('/api/event', async (req, res) => {
+  try {
+    const result = await createEvent(req.body);
+    res.status(201).send(result);
+  } catch (err) {
+    console.log('Error creating new event', err);
+    res.status(500).send(err);
+  }
+});
+
+router.put('/api/event/:eventid', async (req, res) => {
+  console.log('eventid', req.params.eventid);
+  console.log('event body', req.body);
+  try {
+    const result = await updateEventChoice(req.params.eventid, req.body);
+    res.status(200).send(result);
+  } catch (err) {
+    console.log('Error updating event choice', err);
     res.status(500).send(err);
   }
 });
