@@ -1,4 +1,59 @@
 import React, {useState, useEffect } from 'react';
+import styled from 'styled-components';
+
+const GameInfoHeader = styled.h3`
+  font-size: 30px;
+`;
+
+const GameInfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 0 3px black;
+  background: ghostwhite;
+`;
+
+const DescriptionContainer = styled.div`
+  font-size: 25px;
+`;
+
+const ImgContainer = styled.img`
+  width: 500px;
+  height: 500px;
+  object-fit: contain;
+  object-position: center;
+  opacity: 1;
+`;
+
+const PlayContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  font-size: 23px;
+  font-weight: 800;
+  margin-bottom: 10px;
+`;
+
+const Categories = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 10px;
+  list-style-type: none;
+`;
+
+const Category = styled.li`
+  font-size: 20px;
+  margin: 5px;
+  padding: 2px;
+  border: 1px solid black;
+  border-radius: 5px;
+  box-shadow: 0 0 3px black;
+  background-color: white;
+`;
 
 export default function GameInfo({ gameInfo }) {
   // console.log('gameInfo', JSON.stringify(gameInfo));
@@ -8,40 +63,39 @@ export default function GameInfo({ gameInfo }) {
     const players = `${thing.minplayers[0].$.value} - ${thing.maxplayers[0].$.value}`;
     const playtime = `${thing.playingtime[0].$.value} min`;
     const categories = thing.link.filter((cat) => cat.$.type === 'boardgamecategory' || cat.$.type === 'boardgamemechanic');
+    const decode = (desc) => {
+      const doc = new DOMParser().parseFromString(desc, 'text/html');
+      return doc.documentElement.textContent;
+    };
+    const description = decode(thing.description[0]);
+    console.log('thing name', thing.name[0].$.value);
     return (
-      <div>
-        <h3>Game Info</h3>
-        <h3>{thing.name[0].$.value}</h3>
-        <img src={thing.thumbnail} alt={thing.image} />
-        <img src={thing.image} alt={thing.image} width="500" height="500" />
-        <div>
+      <GameInfoContainer>
+        <GameInfoHeader>{thing.name[0].$.value}</GameInfoHeader>
+        <ImgContainer src={thing.image} alt={thing.image} />
+        <PlayContainer>
           <div>
-            Description
+            <span>Players: </span>
+            <span>{players}</span>
           </div>
           <div>
-            {thing.description[0]}
+            <span>Playtime: </span>
+            <span>{playtime}</span>
           </div>
-        </div>
-        <div>
-          <span>Players: </span>
-          <span>{players}</span>
-        </div>
-        <div>
-          <span>Playtime: </span>
-          <span>{playtime}</span>
-        </div>
-        <div>Categories:</div>
-        <ul>
+        </PlayContainer>
+        <Categories>
           {categories.length === 0 ? null : categories.map((category) => (
-            <li key={category.$.id}>{category.$.value}</li>
+            <Category key={category.$.id}>{category.$.value}</Category>
           ))}
-        </ul>
-      </div>
+        </Categories>
+        <DescriptionContainer>
+          {description}
+        </DescriptionContainer>
+
+      </GameInfoContainer>
     );
   }
   return (
-    <div>
-      <h3>Game Info</h3>
-    </div>
+    <div />
   );
 }
