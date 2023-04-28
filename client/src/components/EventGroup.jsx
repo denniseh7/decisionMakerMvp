@@ -1,9 +1,34 @@
 import React, {useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 import Login from './Login';
 import Event from './Event';
 import EventLogin from './EventLogin';
 import Parse from '../Parse';
+
+const RowWrapper = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 60%;
+  grid-template-rows: 450px;
+  justify-content: center;
+  column-gap: 5%;
+  padding-left: 10px;
+  padding-right: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: 0 0 3px black;
+  background-color: white;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+
+`;
+
+const ColWrapper = styled.div`
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 export default function EventGroup({
   choices, setChoices, user, setUser, event, setEvent, gameInfo, gameHandler,
@@ -50,20 +75,21 @@ export default function EventGroup({
   };
 
   return (
-    <div>
-      <h3>EventGroup</h3>
-      <EventLogin
-        event={event}
-        eventHandler={eventHandler}
-        handleEvent={handleEvent}
-        createEvent={createEvent}
-      />
+    <RowWrapper>
+      <ColWrapper>
+        <EventLogin
+          event={event}
+          eventHandler={eventHandler}
+          handleEvent={handleEvent}
+          createEvent={createEvent}
+        />
+        <Login user={user} handleInput={handleInput} loginHandler={loginHandler} />
+      </ColWrapper>
       <Event
         event={event}
         gameInfo={gameInfo}
         gameHandler={gameHandler}
       />
-      <Login user={user} handleInput={handleInput} loginHandler={loginHandler} />
-    </div>
+    </RowWrapper>
   );
 }
